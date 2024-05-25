@@ -3,15 +3,10 @@ const router = express.Router();
 
 const User = require('../models/user.js')
 
-router.get('/:userId', async (req, res) => {
-    if (!req.session.user || req.session.user._id !== req.params.userId) {
-        res.redirect('/')
-    } else {
+router.get('/', async (req, res) => {
+    if (req.session.user) {
         try {
-            if (!req.session.user || req.session.user._id !== req.params.userId) {
-                res.redirect('/')
-            }
-            const currentUser = await User.findById(req.params.userId)
+            const currentUser = await User.findById(req.session.user._id)
 
             res.render('./travel/users-log.ejs', {
                 user: currentUser,
@@ -22,13 +17,13 @@ router.get('/:userId', async (req, res) => {
                 errorMessage: error.message,
             });
         }
+    } else {
+        res.redirect('/auth/sign-in')
     }
 })
 
-router.get('/:userId/add', async (req, res) => {
-    if (!req.session.user || req.session.user._id !== req.params.userId) {
-        res.redirect('/')
-    } else {
+router.get('/add', async (req, res) => {
+    if (req.session.user) {
         try {
             const currentUser = await User.findById(req.session.user._id)
             let destinations = currentUser.destination
@@ -41,16 +36,18 @@ router.get('/:userId/add', async (req, res) => {
                 errorMessage: error.message,
             });
         }
+    } else {
+        res.redirect('/auth/sign-in')
     }
 })
 
-router.get('/:userId/edit/:locaId', async (req, res) => {
+router.get('/edit/:locaId', async (req, res) => {
     if (req.session.user) {
         try {
             const locationId = req.params.locaId
             const currentUser = await User.findById(req.session.user._id)
             const destination = currentUser.destination.id(locationId)
-           
+
             res.render('travel/edit.ejs', {
                 destination: destination,
                 locationId: locationId,
@@ -66,8 +63,8 @@ router.get('/:userId/edit/:locaId', async (req, res) => {
     }
 })
 
-router.delete('/:locaId', async (req, res) => {
-    if (req.session.user){
+router.delete('/:locaId/del', async (req, res) => {
+    if (req.session.user) {
         try {
             const currentUser = await User.findById(req.session.user._id)
             const destination = currentUser.destination.id(req.params.locaId)
@@ -85,8 +82,46 @@ router.delete('/:locaId', async (req, res) => {
     }
 })
 
+router.put('/edit/:locaId', async (req, res) => {
+    if (req.session.user) {
 
-router.post('/:userId/add', async (req, res) => {
+        try {
+            const locationId = req.params.locaId
+            const currentUser = await User.findById(req.session.user._id)
+            const destination = currentUser.destination.id(locationId)
+            destination.country = req.body.country
+            destination.place = req.body.place
+            if (req.body.hasBeen === 'on') {
+                destination.hasBeen = true
+            } else {
+                destination.hasBeen = false
+            }
+            destination.review = req.body.review
+            if (/^[0-9]*$/.test(req.body.rating) || !req.body.rating) {
+                destination.rating = req.body.rating
+            } else {
+                throw new Error('the rating needs to be a number')
+            }
+
+            //! mongoose documention for some reason doesnt show as a function when implemented
+            // destination.findOneAndUpdate(locationId, req.body)
+            // currentUser.findOneAndUpdate({_id: locationId}, req.body, { new: true})
+            await currentUser.save()
+            res.redirect(`/travel/${req.session.user._id}/edit/${locationId}`)
+
+        } catch (error) {
+            res.render('error/error.ejs', {
+                errorMessage: error.message,
+            });
+        }
+
+    } else {
+        res.redirect('/auth/sign-in')
+    }
+})
+
+
+router.post('/add', async (req, res) => {
     if (req.session.user) {
         try {
             const currentUser = await User.findById(req.session.user._id)

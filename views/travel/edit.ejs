@@ -6,22 +6,28 @@
     <title>Document</title>
 </head>
 <body>
+    <%- include('../partials/nav.ejs') %>
     <h1> edit page</h1>
     <form action="/travel/<%=user._id%>/edit/<%=locationId%>?_method=PUT" method="POST">
         <label for="country">Country:</label>
         <input type="text" name="country" id="country" value="<%=destination.country%>" required>
         <label for="place">Place:</label>
         <input type="text" name="place" id="place" value="<%=destination.place%>" required>
-        <label for="hasBeen">Vistited</label>
-        <input type="checkbox" name="hasBeen" id="hasBeen" <% if (destination.hasBeen) { %>checked>
+       
+        <% if (destination.hasBeen) { %>
+            <label for="hasBeen">Vistited</label>
+        <input type="checkbox" name="hasBeen" id="hasBeen" checked/>
 
             <label for="review">Review:</label>
-            <textarea for="text" name="review" id="review"></textarea>
+            <textarea for="text" name="review" id="review" ><%=destination.review%></textarea>
             
             <label for="rating">Rating:</label>
-            <input type="text" name="rating" id="rating">
-            <%}%>
-        <button type="submit">Update Location</button>
+            <input type="text" name="rating" id="rating" value="<%=destination.rating%>">
+            <%} else { %>
+                <label for="hasBeen">Vistited</label>
+                <input type="checkbox" name="hasBeen" id="hasBeen" />
+                <% }%>
+            <button type="submit">Update Location</button>
         </form>
     
 </body>

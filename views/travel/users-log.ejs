@@ -41,6 +41,9 @@
                                             <li>Place: <%=location.place%>
                                             </li>
                                             <a href="/travel/<%=user._id%>/edit/<%=location._id%>">Edit Location</a>
+                                            <form action="/travel/<%=location._id%>/del?_method=DELETE" method="POST">
+                                                <button type="submit">Delete</button>
+                                            </form>
                                         </ul>
                                         <% } %>
                                             <% }); %>

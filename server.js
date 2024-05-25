@@ -46,20 +46,25 @@ app.use((req, res, next) => {
 
 app.use(express.json())
 
-
 app.use('/auth', authController);
-app.use('/travel', travelController);
+app.use('/travel/:userId', travelController);
 app.use('/users', communityController)
+
 
 app.get('/', (req, res) => {
     res.render('home.ejs')
 })
+
 
 app.get('*', function (req, res) {
     res.status(404).render('error/error.ejs', {
         errorMessage: 'Route not found!',
     });
 });
+
+app.use('/auth', authController);
+app.use('/travel/:userId', travelController);
+app.use('/users', communityController)
 
 
 const handleServerError = (error) => {
