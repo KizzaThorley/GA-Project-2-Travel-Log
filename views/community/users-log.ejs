@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include('../partials/nav.ejs') %>
+    <h1> This is <%=username%> virtual travel log</h1>
+    <% if (destinations.length===0) { %>
+        <p>They currently have no destinations!</p>
+        <% } else { %>
+            <h2> Vistited Locations</h2>
+            <% destinations.forEach(location=> { %>
+                <%if (location.hasBeen===true) { %>
+                    <ul>
+                        <li>Country: <%=location.country%>
+                        </li>
+                        <li>Place: <%=location.place%>
+                        </li>
+                    </ul>
+                    <% } %>
+                        <% }); %>
+
+                            <h2> Dream Locations</h2>
+                            <% destinations.forEach(location=> { %>
+                                <%if (location.hasBeen===false) { %>
+                                    <ul>
+                                        <li>Country: <%=location.country%>
+                                        </li>
+                                        <li>Place: <%=location.place%>
+                                        </li>
+                
+                                    </ul>
+                                    <% } %>
+                                        <% }); %>
+                                            <% } %>
+        
+
+</body>
+</html>

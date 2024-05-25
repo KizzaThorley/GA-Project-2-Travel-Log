@@ -48,7 +48,7 @@ app.use(express.json())
 
 app.use('/auth', authController);
 app.use('/travel/:userId', travelController);
-app.use('/users', communityController)
+app.use('/community', communityController)
 
 
 app.get('/', (req, res) => {
@@ -62,9 +62,6 @@ app.get('*', function (req, res) {
     });
 });
 
-app.use('/auth', authController);
-app.use('/travel/:userId', travelController);
-app.use('/users', communityController)
 
 
 const handleServerError = (error) => {
