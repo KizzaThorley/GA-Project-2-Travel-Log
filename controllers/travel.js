@@ -44,21 +44,46 @@ router.get('/:userId/add', async (req, res) => {
     }
 })
 
-router.get('/:userId/edit/:editId', async (req, res) => {
-if (req.session.user) {
-   let locationId = req.params.editId
-   const currentUser = await User.findById(req.session.user._id)
-   const destination = currentUser.destination.id(locationId)
-console.log(destination);
-    res.render('travel/edit.ejs', {
-        destination: destination,
-        locationId: locationId,
+router.get('/:userId/edit/:locaId', async (req, res) => {
+    if (req.session.user) {
+        try {
+            const locationId = req.params.locaId
+            const currentUser = await User.findById(req.session.user._id)
+            const destination = currentUser.destination.id(locationId)
+           
+            res.render('travel/edit.ejs', {
+                destination: destination,
+                locationId: locationId,
 
-    })
-}
-res.redirect('/auth/sign-in')
+            })
+        } catch (error) {
+            res.render('error/error.ejs', {
+                errorMessage: error.message,
+            });
+        }
+    } else {
+        res.redirect('/auth/sign-in')
+    }
 })
 
+router.delete('/:locaId', async (req, res) => {
+    if (req.session.user){
+        try {
+            const currentUser = await User.findById(req.session.user._id)
+            const destination = currentUser.destination.id(req.params.locaId)
+            destination.deleteOne()
+            await currentUser.save()
+            res.redirect(`/travel/${req.session.user._id}`)
+        } catch (error) {
+            res.render('error/error.ejs', {
+                errorMessage: error.message,
+            });
+        }
+
+    } else {
+        res.redirect('/auth/sign-in')
+    }
+})
 
 
 router.post('/:userId/add', async (req, res) => {

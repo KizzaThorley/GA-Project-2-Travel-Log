@@ -13,8 +13,15 @@
         <label for="place">Place:</label>
         <input type="text" name="place" id="place" value="<%=destination.place%>" required>
         <label for="hasBeen">Vistited</label>
-        <input type="checkbox" name="hasBeen" id="hasBeen" <% if (destination.hasBeen) { %>checked<%}%>>
-        <button type="submit">Add Location</button>
+        <input type="checkbox" name="hasBeen" id="hasBeen" <% if (destination.hasBeen) { %>checked>
+
+            <label for="review">Review:</label>
+            <textarea for="text" name="review" id="review"></textarea>
+            
+            <label for="rating">Rating:</label>
+            <input type="text" name="rating" id="rating">
+            <%}%>
+        <button type="submit">Update Location</button>
         </form>
     
 </body>
