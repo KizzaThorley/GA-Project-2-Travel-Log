@@ -7,7 +7,7 @@
 </head>
 <body>
     <%- include('../partials/nav.ejs') %>
-    <h1> This is <%=username%> virtual travel log</h1>
+    <h1> This is <%=username%>'s' virtual travel log</h1>
     <% if (destinations.length===0) { %>
         <p>They currently have no destinations!</p>
         <% } else { %>
@@ -19,6 +19,13 @@
                         </li>
                         <li>Place: <%=location.place%>
                         </li>
+                        <% if (location.review) { %>
+                            <p> Review: </p> 
+                            <p><%=location.review%></p>
+                         <% } %>
+                         <% if (location.rating) { %>
+                            <p> raiting: <%=location.rating%>⭐️</p>
+                         <% } %>
                     </ul>
                     <% } %>
                         <% }); %>

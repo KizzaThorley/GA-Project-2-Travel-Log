@@ -7,7 +7,7 @@ router.get('/', async(req, res) => {
 
 try {
     const allUsers = await User.find()
-    console.log(allUsers);
+   
 
     res.render('community/community.ejs', {
  allUsers: allUsers

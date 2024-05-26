@@ -10,6 +10,15 @@
 <body>
     <%- include('../partials/nav.ejs') %>
         <h1> this is a users log</h1>
+        <form action="/travel/<%=user._id%>/shareyourtravel?_method=PUT" method="POST">
+            <label for="shareYourTravel">Share your travel with others:</label>
+            <% if (user.shareYourTravel) { %>
+            <input type="checkbox" name="shareYourTravel" id="shareYourTravel" checked>
+            <% } else { %>
+                <input type="checkbox" name="shareYourTravel" id="shareYourTravel">
+                <% } %>
+            <button type="submit">Update Sharing preference</button>
+        </form>
         <% if (destinations.length===0) { %>
             <p>You currently have no destination lets add some!</p>
             <% } else { %>
@@ -21,13 +30,22 @@
                             </li>
                             <li>Place: <%=location.place%>
                             </li>
-                            <a href="/travel/<%=user._id%>/edit/<%=location._id%>">Edit Location</a>
-                            <form action="/travel/<%=location._id%>?_method=DELETE" method="POST">
-                                <button type="submit">Delete</button>
-                            </form>
-                            
-                           
-                            
+                            <% if (location.review) { %>
+                                <p> Review: </p>
+                                <p>
+                                    <%=location.review%>
+                                </p>
+                                <% } %>
+                                    <% if (location.rating) { %>
+                                        <p> raiting: <%=location.rating%>⭐️</p>
+                                        <% } %>
+                                            <a href="/travel/<%=user._id%>/edit/<%=location._id%>">Edit Location</a>
+                                            <form action="/travel/<%=location._id%>?_method=DELETE" method="POST">
+                                                <button type="submit">Delete</button>
+                                            </form>
+
+
+
                         </ul>
                         <% } %>
                             <% }); %>

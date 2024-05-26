@@ -148,4 +148,26 @@ router.post('/add', async (req, res) => {
 
 })
 
+router.put('/shareyourtravel', async (req, res) => {
+if (req.session.user) {
+    try {
+     const currentUser = await User.findById(req.session.user._id)
+     if (req.body.shareYourTravel === 'on') {
+        currentUser.shareYourTravel = true
+    } else {
+        currentUser.shareYourTravel = false
+    }
+currentUser.save()
+res.redirect(`/travel/${req.session.user._id}`)
+
+    } catch (error) {
+        res.render('error/error.ejs', {
+            errorMessage: error.message,
+        });
+    }
+} else {
+    res.redirect('/auth/sign-in')
+}
+})
+
 module.exports = router;
