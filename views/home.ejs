@@ -3,10 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/home.css">
     <title>Home</title>
 </head>
 <body>
     <%- include('./partials/nav.ejs') %>
-    <h1> this is the home page</h1>
+    <div class="content">
+    <h1>Travel Log</h1>
+    <p> We believe travel is one of the best experiences in life. So we allow you to store
+        your experiences and plan new ones with the option to share with our community about 
+        different amazing places everyone has been to.
+    </p>
+    </div>
+    <div class="join-us">
+        <a href="/auth/sign-up" id="join-link">Join Us Today</a>
+    </div>
+<div class="images">
+
+    <img src="https://images.unsplash.com/photo-1500835556837-99ac94a94552?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dHJhdmVsfGVufDB8fDB8fHww" alt="plane wing with a sunset in the background">
+
+    <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D" alt="image of a woman walking down and old stream with a backpack on ">
+</div>
 </body>
 </html>
