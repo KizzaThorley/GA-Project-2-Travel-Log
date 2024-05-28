@@ -4,12 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/travel.css">
+    <title><%=user.username%>'s log</title>
 </head>
 
 <body>
     <%- include('../partials/nav.ejs') %>
-        <h1> this is a users log</h1>
+    <% function capitalizeFirstLetter(string) { return string.charAt(0).toUpperCase() + string.slice(1); %>
+        <%} %>
+        <h1><%=capitalizeFirstLetter(user.username)%>'s log</h1>
         <form action="/travel/<%=user._id%>/shareyourtravel?_method=PUT" method="POST">
             <label for="shareYourTravel">Share your travel with others:</label>
             <% if (user.shareYourTravel) { %>
@@ -19,6 +22,9 @@
                 <% } %>
             <button type="submit">Update Sharing preference</button>
         </form>
+
+        <a id="add" href="/travel/<%=user._id%>/add">Add new locations</a>
+
         <% if (destinations.length===0) { %>
             <p>You currently have no destination lets add some!</p>
             <% } else { %>
@@ -31,15 +37,13 @@
                             <li>Place: <%=location.place%>
                             </li>
                             <% if (location.review) { %>
-                                <p> Review: </p>
-                                <p>
-                                    <%=location.review%>
-                                </p>
+                                <p id="review"> Review:<br> <%=location.review%> </p>
+                            
                                 <% } %>
                                     <% if (location.rating) { %>
-                                        <p> raiting: <%=location.rating%>⭐️</p>
+                                        <p> Raiting: <%=location.rating%>⭐️</p>
                                         <% } %>
-                                            <a href="/travel/<%=user._id%>/edit/<%=location._id%>">Edit Location</a>
+                                            <a id="edit" href="/travel/<%=user._id%>/edit/<%=location._id%>">Edit Location</a>
                                             <form action="/travel/<%=location._id%>?_method=DELETE" method="POST">
                                                 <button type="submit">Delete</button>
                                             </form>
@@ -66,7 +70,7 @@
                                         <% } %>
                                             <% }); %>
                                                 <% } %>
-                                                    <a href="/travel/<%=user._id%>/add">Add new locations</a>
+                                                
 
 </body>
 

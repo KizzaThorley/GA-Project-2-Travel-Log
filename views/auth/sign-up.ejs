@@ -3,28 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/sign.css">
+    <title>Sign Up</title>
 </head>
 <body>
     <%- include('../partials/nav.ejs') %>
-    <h1> Sign Up</h1>
-    <form action="/auth/sign-up"  method="POST">
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required/>
+    <div class="content">
 
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required />
-
-    <label for="confirmPassword">Confirm Password:</label>
-    <input type="password" name="confirmPassword" id="confirmPassword" required/>
-    <label for ="shareYourTravel">Share your travel with others:</label>
-    <input type="checkbox" name="shareYourTravel" id="shareYourTravel">
-        <button type="submit">Sign up</button>
-
-        <% if (typeof errorMessage !=='undefined' ) { %>
-            <p>
-                <%= errorMessage %>
-            </p>
-            <% } %>
-</body>
-</html>
+        <div id="title">
+            <h1> Sign Up</h1>
+        </div>
+        <form action="/auth/sign-up"  method="POST">
+            <div id="inputs">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" required/>
+            </div>
+            <div id="inputs-second">
+                
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required />
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" required/>
+            </div>
+            <div id="checkbox">
+                <label for ="shareYourTravel">Share your travel with others:</label>
+                <input type="checkbox" name="shareYourTravel" id="shareYourTravel">
+            </div>
+            <div id="submitBtn">
+                <button type="submit">Sign up</button>
+            </div>
+            
+            <% if (typeof errorMessage !=='undefined' ) { %>
+                <p>
+                    <%= errorMessage %>
+                </p>
+                <% } %>
+            </div>
+            </body>
+            </html>

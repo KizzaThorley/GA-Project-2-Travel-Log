@@ -3,19 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/edit-add.css">
+    <title>Add destination</title>
 </head>
 <body>
     <%- include('../partials/nav.ejs') %>
-    <h1>we are going to add locations</h1>
-    <form action="/travel/<%=user._id%>/add" method="POST">
-    <label for="country">Country:</label>
-    <input type="text" name="country" id="country" required>
-    <label for="place">Place:</label>
-    <input type="text" name="place" id="place" required>
-    <label for="hasBeen">Vistited</label>
-    <input type="checkbox" name="hasBeen" id="hasBeen">
-    <button type="submit">Add Location</button>
-    </form>
-</body>
+    <div class="content">
+
+        <h1>Lets add a new destination</h1>
+
+            <form action="/travel/<%=user._id%>/add" method="POST">
+                <div id="inputs">
+                <label for="country">Country:</label>
+                <input type="text" name="country" id="country" required>
+            </div>
+            <div id="inputs-second">
+                <label for="place">Place:</label>
+                <input type="text" name="place" id="place" required>
+            </div>
+            
+            <div id="checkbox">
+                <label for="hasBeen">Vistited</label>
+                <input type="checkbox" name="hasBeen" id="hasBeen">
+              
+            </div>
+            <button type="submit">Add Location</button>
+        </form>
+    </div>
+    </body>
 </html>

@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/community.css">
+    <title><%=username%>'s log</title>
 </head>
 <body>
     <%- include('../partials/nav.ejs') %>
-    <h1> This is <%=username%>'s' virtual travel log</h1>
+    <% function capitalizeFirstLetter(string) { return string.charAt(0).toUpperCase() + string.slice(1); %>
+    <%} %>
+    <h1><%=capitalizeFirstLetter(username)%>'s virtual travel log</h1>
     <% if (destinations.length===0) { %>
         <p>They currently have no destinations!</p>
         <% } else { %>

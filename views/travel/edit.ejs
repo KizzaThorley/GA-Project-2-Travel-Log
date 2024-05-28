@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/edit-add.css">
+    <title>Edit <%=destination.name%></title>
 </head>
 <body>
     <%- include('../partials/nav.ejs') %>
-    <h1> edit page</h1>
+    <div class="content">
+    <h1> Edit This Location</h1>
     <form action="/travel/<%=user._id%>/edit/<%=locationId%>?_method=PUT" method="POST">
         <label for="country">Country:</label>
         <input type="text" name="country" id="country" value="<%=destination.country%>" required>
@@ -29,6 +31,6 @@
                 <% }%>
             <button type="submit">Update Location</button>
         </form>
-    
+    </div>
 </body>
 </html>
