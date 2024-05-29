@@ -8,27 +8,17 @@
 </head>
 <body>
     <%- include('../partials/nav.ejs') %>
-    <h1>Message <%=username%></h1>
     
-    <form action="/<%=messageUserId%>/message" method="POST">
+    <% if (user._id === messageUserId) { %>
+    <h1><%=username%>'s messages</h1>
+    <h3>View your latest messages</h3>
+    <% }; %>
+    <% messages.forEach(message => { %>
+        <% if (message.target === user._id) { %>
+             <a href="/community/<%=message.sessionUserId%>/message/<%=user._id%>"><%=message.username%><a>
+        <% } else { %>
+        <a href="/community/<%=message.target%>/message/<%=user._id%>"><%=message.targetUsername%></a>
+   <% }  });  %>
 
-
-        <label for="message">Message:</label>
-        <textarea for="message" name="message" id="message" ></textarea>
-   
-        <div class="hidden">
-            <label for="username">username:</label>
-            <input type="username" name="username" id="username" value="<%=username%>" required>
-            
-            <label for="target"></label>
-            <input type="text" name="target" id="target" value="<%=user._id%>">
-        </div>
-      
-    <button type="submit">Send Message</button>
-</form>
-
-<% messages.forEach(message => { %>
-    <p><%=message.message%> from <%=message.username%></p>
-<% }); %>
 </body>
 </html>

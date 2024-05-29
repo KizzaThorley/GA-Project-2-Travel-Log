@@ -6,7 +6,7 @@ body {
     font-size: 2rem;
     display: flex;
     flex-direction: column;
-    background-color: #3beb2f;
+    background-color: #006d77;
     align-items: center;
     margin: 0;
     padding: 0;
@@ -18,10 +18,11 @@ body {
 nav {
     display: flex;
     justify-content: space-around;
+    background-color: #83c5be;
     padding: 8px 16px;
     width: 100%;
     box-shadow: 0 6px 12px 0 rgba(0,0,0,.3);
-    background-color: #5AB1BB;
+   
     }
 #nav-bar {
     display: flex;
@@ -33,7 +34,7 @@ nav {
 .join-us {
     display: flex;
     text-align: center; 
-    background-color: whitesmoke; 
+    background-color: #83c5be;
     width: 100%;
     flex-direction: column;
     align-items: center;
@@ -51,13 +52,12 @@ a {
 }
 a:hover {
     text-decoration: underline;
-    background-color: rgb(50, 219, 81);
+    background-color: #edf6f9;
     border-radius: 8px;
 }
 .content {
     display: flex;
     text-align: center; 
-    background-color: #3beb2f; 
     width: 100%;
     flex-direction: column;
     align-items: center;
@@ -66,7 +66,7 @@ a:hover {
 p {
     max-width: 700px;
     border: 1px solid #ffffff; 
-    background-color: whitesmoke;
+    background-color: #edf6f9;
     border-radius: 8px; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     padding: 20px;
@@ -82,7 +82,6 @@ h1{
     width: 100%;
     display: flex;
     gap: 30px;
-    background-color: #3beb2f;
     align-items: center;
     justify-content: center;
 }
@@ -97,7 +96,6 @@ img {
     .images {
         width: 100%;
         display: flex;
-        background-color: #3beb2f;
         align-items: center;
         justify-content: center;
         flex-direction: column;
@@ -115,7 +113,7 @@ img {
         display: flex;
         text-align: center;
         flex-direction: column;
-        background-color: lightgreen;
+    
     }
     #nav-bar {
         display: flex;

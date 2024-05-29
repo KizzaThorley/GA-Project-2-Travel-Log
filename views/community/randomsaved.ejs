@@ -1,0 +1,25 @@
+<% if (user._id === messageUserId) { %>
+    <h1><%=username%>'s messages</h1>
+    <h3>View your latest messages</h3>
+    <% if (usersMessages.length === 0) { %> 
+        <p> You currently have no messages</p>
+    <% } else { %>
+    <% usersMessages.forEach(message => { %>
+        <p><%=message.message%> from <%=message.username%></p>
+        <form action="/community/<%=messageUserId%>/message/<%=message._id%>?_method=DELETE" method="POST">
+            <button type="submit">Delete</button>
+        </form>
+    <% }); %>
+    <% }; %>
+    <h3> Your Sent Messages</h3>
+    <% if (sentMessages.length === 0) { %> 
+        <p> You currently have no messages</p>
+    <% } else { %>
+    <% sentMessages.forEach(message => { %>
+        <p><%=message.message%> from <%=message.username%></p>
+        <form action="/community/<%=messageUserId%>/message/<%=message._id%>?_method=DELETE" method="POST">
+            <button type="submit">Delete</button>
+        </form>
+    <% }); %>
+    <% }; %>
+<%} 

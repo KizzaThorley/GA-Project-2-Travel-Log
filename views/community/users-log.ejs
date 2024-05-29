@@ -12,7 +12,7 @@
     <%} %>
     <h1><%=capitalizeFirstLetter(username)%>'s virtual travel log</h1>
     <% if (user) {  %>
-    <h3><a href="/community/<%=userId%>/message">Message <%=username%></a></h3>
+    <h3><a href="/community/<%=userId%>/message/<%=user._id%>">Message <%=username%></a></h3>
 <%}%>
     <% if (destinations.length===0) { %>
         <p>They currently have no destinations!</p>

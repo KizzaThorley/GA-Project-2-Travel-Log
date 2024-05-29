@@ -6,6 +6,7 @@
     <% if(user) { %>
       <a href="/travel/<%=user._id%>">Your page</a>
       <a href="/auth/sign-out">Sign Out</a>
+      <a href="/community/<%=user._id%>/message">Messages</a>
     <% } else { %>
       <a href="/auth/sign-in">Sign In</a>
       <a href="/auth/sign-up">Sign Up</a>

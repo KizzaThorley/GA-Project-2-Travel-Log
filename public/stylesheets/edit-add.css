@@ -6,7 +6,7 @@ body {
     font-size: 2rem;
     display: flex;
     flex-direction: column;
-    background-color: #22a126;
+    background-color: #006d77;
     align-items: center;
     margin: 0;
     padding: 0;
@@ -15,7 +15,7 @@ body {
 }
 
 nav {
-    background-color: aqua;
+    background-color: #83c5be;
     display: flex;
     justify-content: space-around;
     padding: 8px 16px;
@@ -37,7 +37,7 @@ a {
 }
 a:hover {
     text-decoration: underline;
-    background-color: rgb(50, 219, 81);
+    background-color: #edf6f9;
     border-radius: 8px;
 }
 
@@ -59,7 +59,7 @@ a:hover {
         display: flex;
         text-align: center;
         flex-direction: column;
-        background-color: lightgreen;
+    
     }
     #nav-bar {
         display: flex;

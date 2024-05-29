@@ -43,15 +43,43 @@ router.get('/', async (req, res) => {
 router.get('/:userId/message', async (req, res) => {
     if (req.session.user) {
         try {
+            const sessionUser = await User.findById(req.session.user._id)
+            const sessionUsername = sessionUser.username
+
             const messageUser = await User.findById(req.params.userId)
             const messageUsername = messageUser.username
             const messageUserId = req.params.userId
             const messages = await Message.find()
-            
+
+            // let filteredMessages = []
+            // messages.forEach(message => {
+            //     if (message.target === messageUserId && message.username === sessionUsername) {
+            //         filteredMessages.push(message)
+            //     }
+            // })
+
+            let seenUsernames = []
+            let seentargetUsernames = []
+            let currentUsersMessages = []
+            messages.forEach(message => {
+                if (message.target === req.session.user._id ||
+                    message.sessionUserId === req.session.user._id) {
+                    if (seenUsernames.includes(message.username) ||
+                        seentargetUsernames.includes(message.targetUsername)) {
+                        return
+                    } else {
+                        seentargetUsernames.push(message.targetUsername)
+                        seenUsernames.push(message.username)
+                        currentUsersMessages.push(message)
+                    }
+                }
+            })
+
+
 
             res.render('community/message.ejs', {
                 username: messageUsername,
-                messages: messages,
+                messages: currentUsersMessages,
                 messageUserId: messageUserId,
             })
         } catch (error) {
@@ -65,22 +93,82 @@ router.get('/:userId/message', async (req, res) => {
 })
 
 router.post('/:userId/message', async (req, res) => {
-if (req.session.user) {
-    try {
-       const messageTargetId = req.params.userId
-    await Message.create(req.body)
-    
-    res.redirect(`/community/${messageTargetId}`)
-        
-    } catch (error) {
-        res.render('error/error.ejs', {
-            errorMessage: error.message,
-        });
+    if (req.session.user) {
+        try {
+            const messageTargetId = req.params.userId
+            await Message.create(req.body)
+
+            res.redirect(`/community/${messageTargetId}/message/${req.session.user._id}`)
+
+        } catch (error) {
+            res.render('error/error.ejs', {
+                errorMessage: error.message,
+            });
+        }
+    } else {
+        res.redirect('/auth/sign-in')
     }
-} else {
-    res.redirect('/auth/sign-in')
-}
 
 });
+
+router.delete('/:userId/message/:messageId', async (req, res) => {
+    if (req.session.user) {
+        try {
+            const messageTargetId = req.params.userId
+            await Message.findByIdAndDelete(req.params.messageId)
+
+            res.redirect(`/community/${messageTargetId}/message/${req.session.user._id}`)
+        } catch (error) {
+            res.render('error/error.ejs', {
+                errorMessage: error.message,
+            });
+        }
+
+    } else {
+        res.redirect('/auth/sign-in')
+    }
+})
+
+router.get('/:userId/message/:sessionId', async (req, res) => {
+    if (req.session.user) {
+        try {
+
+            const sessionUser = await User.findById(req.session.user._id)
+            const sessionUsername = sessionUser.username
+
+            const messageUser = await User.findById(req.params.userId)
+            const messageUsername = messageUser.username
+            const messageUserId = req.params.userId
+            const messages = await Message.find()
+
+            let sentMessages = []
+            messages.forEach(message => {
+                if (message.target === messageUserId && message.sessionUserId === req.session.user._id)
+                    sentMessages.push(message)
+            })
+
+            let recievedMessages = []
+            messages.forEach(message => {
+                if (message.target === req.session.user._id && message.sessionUserId === messageUserId)
+                    recievedMessages.push(message)
+            })
+
+            res.render('community/conversation.ejs', {
+                messageUserId: messageUserId,
+                username: messageUsername,
+                sentMessages: sentMessages,
+                recievedMessages: recievedMessages,
+            })
+
+        } catch (error) {
+            res.render('error/error.ejs', {
+                errorMessage: error.message,
+            });
+        }
+
+    } else {
+        res.redirect('/auth/sign-in')
+    }
+})
 
 module.exports = router;
