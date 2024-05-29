@@ -16,7 +16,11 @@
     </p>
     </div>
     <div class="join-us">
+        <% if(user) { %>
+            <a href="/travel/<%=user._id%>">View Your Travel Log</a>
+       <% } else { %> 
         <a href="/auth/sign-up" id="join-link">Join Us Today</a>
+       <% } %>
     </div>
 <div class="images">
 

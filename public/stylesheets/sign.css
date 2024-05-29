@@ -135,4 +135,8 @@ text-align: center;
 } 
 #checkbox {
  align-items: center;
+ text-align: center;
+}
+.error {
+    text-align: center;
 }

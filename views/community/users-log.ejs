@@ -11,6 +11,9 @@
     <% function capitalizeFirstLetter(string) { return string.charAt(0).toUpperCase() + string.slice(1); %>
     <%} %>
     <h1><%=capitalizeFirstLetter(username)%>'s virtual travel log</h1>
+    <% if (user) {  %>
+    <h3><a href="/community/<%=userId%>/message">Message <%=username%></a></h3>
+<%}%>
     <% if (destinations.length===0) { %>
         <p>They currently have no destinations!</p>
         <% } else { %>
@@ -27,7 +30,7 @@
                             <p><%=location.review%></p>
                          <% } %>
                          <% if (location.rating) { %>
-                            <p> raiting: <%=location.rating%>⭐️</p>
+                            <p> Rating: <%=location.rating%>⭐️</p>
                          <% } %>
                     </ul>
                     <% } %>

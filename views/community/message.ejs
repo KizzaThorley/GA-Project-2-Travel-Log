@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/community.css">
+    <title>Message</title>
+</head>
+<body>
+    <%- include('../partials/nav.ejs') %>
+    <h1>Message <%=username%></h1>
+    
+    <form action="/<%=messageUserId%>/message" method="POST">
+
+
+        <label for="message">Message:</label>
+        <textarea for="message" name="message" id="message" ></textarea>
+   
+        <div class="hidden">
+            <label for="username">username:</label>
+            <input type="username" name="username" id="username" value="<%=username%>" required>
+            
+            <label for="target"></label>
+            <input type="text" name="target" id="target" value="<%=user._id%>">
+        </div>
+      
+    <button type="submit">Send Message</button>
+</form>
+
+<% messages.forEach(message => { %>
+    <p><%=message.message%> from <%=message.username%></p>
+<% }); %>
+</body>
+</html>
