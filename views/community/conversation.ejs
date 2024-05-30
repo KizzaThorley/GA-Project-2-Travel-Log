@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/community.css">
+    <link rel="stylesheet" href="/stylesheets/messages.css">
     <title>Conversation</title>
 </head>
+
 <body>
     <%- include('../partials/nav.ejs') %>
-<h1> your messages wooooh</h1>
+        <h1>Your Chat With <%=targetUsername%>
+        </h1>
+        <% if (messages.length === 0) { %> 
+            <p> You have no messages Yet</p>
+            <% } else { %> 
+                <div class="message-box">
+                    <% messages.forEach(message => { %>
+                        <% if (message.sender.username === user.username || message.reciever.username === user.username) { %>
+                            <div class="users-messages">
+                                <p class="message">
+                                    <%=message.message%>
+                                </p>            
+                                <form class="delete" action="/community/conversation/<%=convoId%>/message/<%=message._id%>?_method=DELETE" method="POST">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </div>
+                            
+                            <% } else { %>
+                                <div class="recievers-messages">
 
+                                    <p class="message">
+                                        <%=message.message%>
+                                    </p>
+                                </div>
+                                <% } %>
+                                <% }) %>
+                            </div>
+                            <% } %>
+                  
 
-<form action="/community/conversation/<%=convoId%>/message" method="POST">
-    <label for="message">Message:</label>
-    <textarea for="message" name="message" id="message" ></textarea>
-<button type="submit">Send Message</button>
-</form>
-
+                        <div class="new-message">
+                            <form action="/community/conversation/<%=convoId%>/message" method="POST">
+                                <label for="message"></label>
+                                <textarea for="message" name="message" id="message" required></textarea>
+                                <button type="submit">Send Message</button>
+                            </form>
+                        </div>
 </body>
+
 </html>

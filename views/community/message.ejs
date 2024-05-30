@@ -3,23 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/community.css">
+    <link rel="stylesheet" href="/stylesheets/messages.css">
     <title>Message</title>
 </head>
 <body>
     <%- include('../partials/nav.ejs') %>
     
-    <h1> Your chats</h1>
+    <h1> Your Chats</h1>
     <%if (conversations.length === 0) { %>
-        <p>You have no Conversation yet</p>
+        <p>You have no Conversation's yet</p>
         <a href="/community">Find someone to message</a>
         <% } else { %>
     <% conversations.forEach(convo => { %>
         <% if (convo.userIdOne.username === user.username ) { %>
-              <a href="/community/conversation/<%=convo._id%>" >Message <%convo.userIdTwo.username%></a> 
+        
+              <a href="/community/conversation/<%=convo._id%>" >Message <%=convo.userIdTwo.username%></a>
+              
      <%   } else { %>
         <a href="/community/conversation/<%=convo._id%>" >Message <%=convo.userIdOne.username%></a> 
     <% }  }); %>
+    <a class="find-new" href="/community">Find new someone to message</a>
     <% } %>
  
 </body>

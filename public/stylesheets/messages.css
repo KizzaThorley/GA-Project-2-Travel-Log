@@ -1,0 +1,138 @@
+html {
+    font-size: 16px;
+}
+
+body {
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    background-color: #006d77;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  justify-content: center;
+    
+}
+
+nav {
+    background-color: #83c5be;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 16px;
+    width: 100%;
+    box-shadow: 0 6px 12px 0 rgba(0,0,0,.3);
+    }
+#nav-bar {
+    display: flex;
+    justify-content: space-around;
+    width: 700px;
+   max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+    padding: 5px;
+    color: black;
+
+}
+a:hover {
+    text-decoration: underline;
+    background-color: #edf6f9;
+    border-radius: 8px;
+}
+
+.find-new { 
+margin-top: 40px;
+}
+
+
+.message-box{
+    width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    
+    background-color: aliceblue;
+    border-radius: 8px;
+}
+
+
+.delete {
+    margin: 10px 10px;
+}
+.users-messages {
+    align-self: flex-end;
+    background-color: lightgreen;
+    text-align: center;
+    border-radius: 8px;
+    margin: 5px 10px;
+    max-width: 45%;
+    word-wrap: break-word;
+}
+.recievers-messages {
+    align-self: flex-start;
+    background-color: lightgray;
+    border-radius: 8px;
+    margin: 10px 10px;
+}
+
+.new-message {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+border-radius: 8px;
+text-align: center;
+padding: 30px;
+}
+form {
+    display: flex;
+gap: 10px;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+textarea {
+    width: 300px;
+    height: 100px;
+    resize: none;
+}
+
+
+
+@media all and (max-width: 700px) { 
+   body{
+    width: 100%;
+    font-size: 1.3rem;
+   }
+   .message-box{ 
+    width: 360px;
+   }
+}
+
+
+
+@media all and (max-width: 500px) {
+    .nav-bar {
+        padding: 7px;
+    }
+    body {
+        width: 100%;
+        font-size: 1rem;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+    
+    }
+    #nav-bar {
+        display: flex;
+      justify-content: center;
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+    }
+    p {
+        width: 90%;
+        padding: 5px;
+    }
+}

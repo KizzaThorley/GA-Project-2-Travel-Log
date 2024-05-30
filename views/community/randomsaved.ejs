@@ -103,3 +103,23 @@ else { %>
         <a href="/community/conversation/<%=convo._id%>" >Message <%=userIdOne.username%></a> 
     <% }  }); %>
     <% } %>
+
+
+
+    <% if (messages.length === 0) { %> 
+            <p> You have no messages Yet</p>
+            <% } else { %> 
+        <% messages.forEach(message=> { %>
+            <% if (message.sender.username===user.username || message.reciever.username===user.username) { %>
+
+                <p class="users-messages">
+                    <%=message.message>%>
+                </p>
+
+                <% } else { %>
+                    <p class="recievers-messages">
+                        <%=message.message>%>
+                    </p>
+                    <% } %>
+                        <% }); %>
+                        <% } %>
