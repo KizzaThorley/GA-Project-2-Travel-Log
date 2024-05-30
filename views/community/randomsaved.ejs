@@ -23,3 +23,83 @@
     <% }); %>
     <% }; %>
 <%} 
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/community.css">
+    <title>Message</title>
+</head>
+<body>
+    <%- include('../partials/nav.ejs') %>
+    
+    <% if (user._id === messageUserId) { %>
+    <h1><%=username%>'s messages</h1>
+    <h3>View your latest messages</h3>
+    <% }; %>
+    <% messages.forEach(message => { %>
+        <% if (message.target === user._id) { %>
+             <a href="/community/<%=message.sessionUserId%>/message/<%=user._id%>"><%=message.username%><a>
+        <% } else { %>
+        <a href="/community/<%=message.target%>/message/<%=user._id%>"><%=message.targetUsername%></a>
+   <% }  });  %>
+
+</body>
+</html>
+
+
+
+
+
+<h1>Message <%=username%></h1>
+    <form action="/community/<%=messageUserId%>/message" method="POST">
+
+        <label for="message">Message:</label>
+        <textarea for="message" name="message" id="message" ></textarea>
+   
+        <div class="hidden">
+            <label for="username">username:</label>
+            <input type="username" name="username" id="username" value="<%=user.username%>" required>
+
+            <label for="sessionUserId">userId:</label>
+            <input type="username" name="sessionUserId" id="sessionUserId" value="<%=user._id%>" required>
+            
+            <label for="target">target</label>
+            <input type="text" name="target" id="target" value="<%=messageUserId%>">
+
+            <label for="targetUsername"></label>
+            <input type="text" name="targetUsername" id="targetUsername" value="<%=username%>">
+        </div>
+      
+    <button type="submit">Send Message</button>
+</form>
+
+<p> Sent</p>
+<% sentMessages.forEach(message => { %>
+    <p><%=message.message%></p>
+    <form action="/community/<%=messageUserId%>/message/<%=message._id%>?_method=DELETE" method="POST">
+        <button type="submit">Delete</button>
+    </form>
+<% }); %>
+
+<p>received</p>
+<% recievedMessages.forEach(message => { %>
+    <p><%=message.message%></p>
+<% }); %>
+
+
+
+else { %>
+    <% conversations.forEach(convo => { %>
+        <% if (convo.UserIdOne.username === user.username ) { %>
+              <a href="/community/conversation/<%=convo._id%>" >Message <%=userIdTwo.username%></a> 
+     <%   } else { %>
+        <a href="/community/conversation/<%=convo._id%>" >Message <%=userIdOne.username%></a> 
+    <% }  }); %>
+    <% } %>

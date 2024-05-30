@@ -8,42 +8,14 @@
 </head>
 <body>
     <%- include('../partials/nav.ejs') %>
+<h1> your messages wooooh</h1>
 
-          <h1>Message <%=username%></h1>
-    <form action="/community/<%=messageUserId%>/message" method="POST">
 
-        <label for="message">Message:</label>
-        <textarea for="message" name="message" id="message" ></textarea>
-   
-        <div class="hidden">
-            <label for="username">username:</label>
-            <input type="username" name="username" id="username" value="<%=user.username%>" required>
-
-            <label for="sessionUserId">userId:</label>
-            <input type="username" name="sessionUserId" id="sessionUserId" value="<%=user._id%>" required>
-            
-            <label for="target">target</label>
-            <input type="text" name="target" id="target" value="<%=messageUserId%>">
-
-            <label for="targetUsername"></label>
-            <input type="text" name="targetUsername" id="targetUsername" value="<%=username%>">
-        </div>
-      
-    <button type="submit">Send Message</button>
+<form action="/community/conversation/<%=convoId%>/message" method="POST">
+    <label for="message">Message:</label>
+    <textarea for="message" name="message" id="message" ></textarea>
+<button type="submit">Send Message</button>
 </form>
-
-<p> Sent</p>
-<% sentMessages.forEach(message => { %>
-    <p><%=message.message%></p>
-    <form action="/community/<%=messageUserId%>/message/<%=message._id%>?_method=DELETE" method="POST">
-        <button type="submit">Delete</button>
-    </form>
-<% }); %>
-
-<p>received</p>
-<% recievedMessages.forEach(message => { %>
-    <p><%=message.message%></p>
-<% }); %>
 
 </body>
 </html>

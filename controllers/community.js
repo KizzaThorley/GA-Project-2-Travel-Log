@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const User = require('../models/user.js')
-const Message = require('../models/message.js')
+const Conversation = require('../models/conversation.js')
 
 router.get('/', async (req, res) => {
 
@@ -18,6 +18,7 @@ router.get('/', async (req, res) => {
             errorMessage: error.message,
         });
     }
+
 
 
     router.get('/:userId', async (req, res) => {
@@ -40,126 +41,70 @@ router.get('/', async (req, res) => {
     })
 })
 
-router.get('/:userId/message', async (req, res) => {
-    if (req.session.user) {
-        try {
-            const sessionUser = await User.findById(req.session.user._id)
-            const sessionUsername = sessionUser.username
-
-            const messageUser = await User.findById(req.params.userId)
-            const messageUsername = messageUser.username
-            const messageUserId = req.params.userId
-            const messages = await Message.find()
-
-            // let filteredMessages = []
-            // messages.forEach(message => {
-            //     if (message.target === messageUserId && message.username === sessionUsername) {
-            //         filteredMessages.push(message)
-            //     }
-            // })
-
-            let seenUsernames = []
-            let seentargetUsernames = []
-            let currentUsersMessages = []
-            messages.forEach(message => {
-                if (message.target === req.session.user._id ||
-                    message.sessionUserId === req.session.user._id) {
-                    if (seenUsernames.includes(message.username) ||
-                        seentargetUsernames.includes(message.targetUsername)) {
-                        return
-                    } else {
-                        seentargetUsernames.push(message.targetUsername)
-                        seenUsernames.push(message.username)
-                        currentUsersMessages.push(message)
-                    }
-                }
-            })
 
 
+// router.post('/:userId/message', async (req, res) => {
+//     if (req.session.user) {
+//         try {
+//             const messageTargetId = req.params.userId
+//             // const message = await Conversation.find().populate('messages.sender').populate('messages.reciever');
 
-            res.render('community/message.ejs', {
-                username: messageUsername,
-                messages: currentUsersMessages,
-                messageUserId: messageUserId,
-            })
-        } catch (error) {
-            res.render('error/error.ejs', {
-                errorMessage: error.message,
-            });
-        }
-    } else {
-        res.redirect('/auth/sign-in')
-    }
-})
+//             res.redirect(`/community/${messageTargetId}/message/${req.session.user._id}`)
 
-router.post('/:userId/message', async (req, res) => {
-    if (req.session.user) {
-        try {
-            const messageTargetId = req.params.userId
-            await Message.create(req.body)
+//         } catch (error) {
+//             res.render('error/error.ejs', {
+//                 errorMessage: error.message,
+//             });
+//         }
+//     } else {
+//         res.redirect('/auth/sign-in')
+//     }
 
-            res.redirect(`/community/${messageTargetId}/message/${req.session.user._id}`)
+// });
 
-        } catch (error) {
-            res.render('error/error.ejs', {
-                errorMessage: error.message,
-            });
-        }
-    } else {
-        res.redirect('/auth/sign-in')
-    }
+// router.delete('/:userId/message/:messageId', async (req, res) => {
+//     if (req.session.user) {
+//         try {
+//             const messageTargetId = req.params.userId
+//             // await Message.findByIdAndDelete(req.params.messageId)
 
-});
+//             res.redirect(`/community/${messageTargetId}/message/${req.session.user._id}`)
+//         } catch (error) {
+//             res.render('error/error.ejs', {
+//                 errorMessage: error.message,
+//             });
+//         }
 
-router.delete('/:userId/message/:messageId', async (req, res) => {
-    if (req.session.user) {
-        try {
-            const messageTargetId = req.params.userId
-            await Message.findByIdAndDelete(req.params.messageId)
-
-            res.redirect(`/community/${messageTargetId}/message/${req.session.user._id}`)
-        } catch (error) {
-            res.render('error/error.ejs', {
-                errorMessage: error.message,
-            });
-        }
-
-    } else {
-        res.redirect('/auth/sign-in')
-    }
-})
+//     } else {
+//         res.redirect('/auth/sign-in')
+//     }
+// })
 
 router.get('/:userId/message/:sessionId', async (req, res) => {
     if (req.session.user) {
         try {
+            const conversations = await Conversation.find()
 
-            const sessionUser = await User.findById(req.session.user._id)
-            const sessionUsername = sessionUser.username
+            const targetId = req.params.userId
 
-            const messageUser = await User.findById(req.params.userId)
-            const messageUsername = messageUser.username
-            const messageUserId = req.params.userId
-            const messages = await Message.find()
+            let usersConvos = []
+            conversations.forEach(convo => {
+                if (convo.userIdOne.toString() === req.session.user._id && convo.userIdTwo.toString() === targetId ||
+                    convo.userIdTwo.toString() === req.session.user._id && convo.userIdOne.toString() === targetId
+                ) {
+                    usersConvos.push(convo)
+                }
+            });
+            if (usersConvos.length === 0) {
+                req.body.userIdOne = req.params.userId
+                req.body.userIdTwo = req.session.user._id
+                const newConvo = await Conversation.create(req.body)
 
-            let sentMessages = []
-            messages.forEach(message => {
-                if (message.target === messageUserId && message.sessionUserId === req.session.user._id)
-                    sentMessages.push(message)
-            })
-
-            let recievedMessages = []
-            messages.forEach(message => {
-                if (message.target === req.session.user._id && message.sessionUserId === messageUserId)
-                    recievedMessages.push(message)
-            })
-
-            res.render('community/conversation.ejs', {
-                messageUserId: messageUserId,
-                username: messageUsername,
-                sentMessages: sentMessages,
-                recievedMessages: recievedMessages,
-            })
-
+                res.redirect(`/community/conversation/${newConvo._id}`)
+            } else {
+                res.redirect(`/community/conversation/${usersConvos[0]._id}`) 
+             
+            }
         } catch (error) {
             res.render('error/error.ejs', {
                 errorMessage: error.message,
@@ -170,5 +115,109 @@ router.get('/:userId/message/:sessionId', async (req, res) => {
         res.redirect('/auth/sign-in')
     }
 })
+
+
+router.get('/:userId/message', async (req, res) => {
+    if (req.session.user) {
+        try {
+            const conversations = await Conversation.find().populate('userIdOne', 'username').populate('userIdTwo', 'username')
+
+            let usersConvos = []
+            conversations.forEach(convo => {
+                if (convo.userIdOne._id.toString() === req.session.user._id ||
+                    convo.userIdTwo._id.toString() === req.session.user._id) {
+                    usersConvos.push(convo)
+                }
+            });
+        
+
+            res.render('community/message.ejs', {
+                conversations: usersConvos,
+            })
+        } catch (error) {
+            res.render('error/error.ejs', {
+                errorMessage: error.message,
+            });
+        }
+    } else {
+        res.redirect('/auth/sign-in')
+    }
+})
+
+router.get('/conversation/:convoId', async (req, res) => {
+    if (req.session.user) {
+        try {
+            const currentConvo = await Conversation.findById(req.params.convoId).populate('messages.sender')
+            const messages = currentConvo.messages
+            
+            res.render('community/conversation.ejs', {
+                convoId: req.params.convoId,
+                messages: messages,
+            })
+        } catch (error) {
+            res.render('error/error.ejs', {
+                errorMessage: error.message,
+            });
+        }
+
+    } else {
+        res.redirect('/auth/sign-in')
+    } 
+})
+
+router.post('/conversation/:convoId/message', async (req, res) => {
+    if(req.session.user) {
+try {
+const currentConvo = await Conversation.findById(req.params.convoId)
+
+    if (req.session.user._id === currentConvo.userIdOne.toString()) {
+    req.body.sender = req.session.user._id 
+    req.body.reciever = currentConvo.userIdTwo.toString()
+} else {
+    req.body.sender = req.session.user._id 
+    req.body.reciever = currentConvo.userIdOne.toString()
+}
+currentConvo.messages.push(req.body)
+
+await currentConvo.save()
+
+res.redirect(`/community/conversation/${req.params.convoId}`)
+
+} catch (error) {
+    res.render('error/error.ejs', {
+        errorMessage: error.message,
+    });
+}
+
+    } else {
+        res.redirect('/auth/sign-in')
+    }
+
+})
+
+
+
+
+
+
+// router.post('/:userId/startmessage/:messageId', async (req, res) => {
+//     if(req.session.user) {
+// try {
+//     req.body.userIdOne = req.params.userId
+//     req.body.userIdTwo = req.session.user._id
+// await Conversation.create(req.body)
+// res.redirect(`/community/${req.params.userId}/message/${req.session.user._id}`)
+
+// } catch (error) {
+//     res.render('error/error.ejs', {
+//         errorMessage: error.message,
+//     });
+// }
+
+//     } else {
+//         res.redirect('/auth/sign-in')
+//     }
+
+// })
 
 module.exports = router;

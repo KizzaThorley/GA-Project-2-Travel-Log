@@ -9,16 +9,18 @@
 <body>
     <%- include('../partials/nav.ejs') %>
     
-    <% if (user._id === messageUserId) { %>
-    <h1><%=username%>'s messages</h1>
-    <h3>View your latest messages</h3>
-    <% }; %>
-    <% messages.forEach(message => { %>
-        <% if (message.target === user._id) { %>
-             <a href="/community/<%=message.sessionUserId%>/message/<%=user._id%>"><%=message.username%><a>
+    <h1> Your chats</h1>
+    <%if (conversations.length === 0) { %>
+        <p>You have no Conversation yet</p>
+        <a href="/community">Find someone to message</a>
         <% } else { %>
-        <a href="/community/<%=message.target%>/message/<%=user._id%>"><%=message.targetUsername%></a>
-   <% }  });  %>
-
+    <% conversations.forEach(convo => { %>
+        <% if (convo.userIdOne.username === user.username ) { %>
+              <a href="/community/conversation/<%=convo._id%>" >Message <%convo.userIdTwo.username%></a> 
+     <%   } else { %>
+        <a href="/community/conversation/<%=convo._id%>" >Message <%=convo.userIdOne.username%></a> 
+    <% }  }); %>
+    <% } %>
+ 
 </body>
 </html>
