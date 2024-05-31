@@ -89,7 +89,7 @@ router.get('/:userId/message/:sessionId', async (req, res) => {
 
 ### Deployed App
 
-[Link to deployed app]()
+[Link to deployed app](https://travel-log-ga-project.netlify.app/)
 
 
 
