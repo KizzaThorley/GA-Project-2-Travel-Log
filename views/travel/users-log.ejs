@@ -44,7 +44,7 @@
                                         <p> Raiting: <%=location.rating%>⭐️</p>
                                         <% } %>
                                             <a id="edit" href="/travel/<%=user._id%>/edit/<%=location._id%>">Edit Location</a>
-                                            <form action="/travel/<%=location._id%>?_method=DELETE" method="POST">
+                                            <form action="/travel/<%=user._id%>/delete/<%=location._id%>?_method=DELETE" method="POST">
                                                 <button type="submit">Delete</button>
                                             </form>
 
@@ -63,7 +63,7 @@
                                             <li>Place: <%=location.place%>
                                             </li>
                                             <a href="/travel/<%=user._id%>/edit/<%=location._id%>">Edit Location</a>
-                                            <form action="/travel/<%=location._id%>/del?_method=DELETE" method="POST">
+                                            <form action="/travel/<%=user._id%>/delete/<%=location._id%>?_method=DELETE" method="POST">
                                                 <button type="submit">Delete</button>
                                             </form>
                                         </ul>

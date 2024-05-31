@@ -63,7 +63,7 @@ router.get('/edit/:locaId', async (req, res) => {
     }
 })
 
-router.delete('/:locaId/del', async (req, res) => {
+router.delete('/delete/:locaId', async (req, res) => {
     if (req.session.user) {
         try {
             const currentUser = await User.findById(req.session.user._id)
