@@ -7,21 +7,24 @@ const methodOverride = require('method-override');
 const morgan = require('morgan');
 const session = require('express-session');
 const path = require('path')
+const serverless = require('serverless-http')
 
-const authController = require('./controllers/auth.js');
-const travelController = require('./controllers/travel.js')
-const communityController = require('./controllers/community.js')
+const authController = require('../../controllers/auth.js');
+const travelController = require('../../controllers/travel.js')
+const communityController = require('../../controllers/community.js')
+
+const User = require('../../models/user.js')
+const Conversation = require('../../models/conversation.js')
 
 
-
-const port = process.env.PORT ? process.env.PORT : '3000';
+// const port = process.env.PORT ? process.env.PORT : '3000';
 
 mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on('connected', () => {
     console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
 
-app.use(express.static(path.join(__dirname, "public")))
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 app.use(morgan('dev'));
@@ -65,14 +68,17 @@ app.get('*', function (req, res) {
 
 
 
-const handleServerError = (error) => {
-    if (error.code === 'EADDRINUSE') {
-        console.log(`Warning! Port ${port} is already in use!`);
-    } else {
-        console.log('Error:', error);
-    }
-}
+// const handleServerError = (error) => {
+//     if (error.code === 'EADDRINUSE') {
+//         console.log(`Warning! Port ${port} is already in use!`);
+//     } else {
+//         console.log('Error:', error);
+//     }
+// }
 
-app.listen(port, () => {
-    console.log(`The express app is ready on port ${port}!`);
-}).on('error', handleServerError)
+
+module.exports.handler = serverless(app)
+
+// app.listen(port, () => {
+//     console.log(`The express app is ready on port ${port}!`);
+// }).on('error', handleServerError)
